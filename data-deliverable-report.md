@@ -1,4 +1,4 @@
-# Data Deliverable Report - DOT DOT DATA
+# Data Deliverable Report - dot dot data
 
 **Team members**: Dhiraj, Khosrow, Amin, Jimmy, Geireann
 
