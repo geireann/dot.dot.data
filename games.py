@@ -1,8 +1,8 @@
 import sqlite3
 names = ['Modern.pgn', 'FourKnights.pgn', 'QG-Chigorin.pgn', 'SicilianNajdorf6Bc4.pgn', 'GiuocoPiano.pgn',\
          'London2g6.pgn', 'RuyLopezOther3.pgn', 'KIDClassical.pgn', 'QG-Albin.pgn',\
-         'ThreeKnights.pgn']
-
+         'ThreeKnights.pgn', 'TrompowskyOther.pgn', 'CatalanClosed.pgn', 'BenkoGambit.pgn',\
+         'DutchOther.pgn']
 
 lists = []
 for name in names:
@@ -50,6 +50,7 @@ for i in games_dict:
     black_player = games_dict.get(i)[2]
     white_elo = games_dict.get(i)[3]
     black_elo = games_dict.get(i)[4]
+    #dont include game with elo less than 2500
     if not white_elo or not black_elo:
         continue
     white_elo = int(white_elo)
@@ -59,6 +60,7 @@ for i in games_dict:
     moves = games_dict.get(i)[5]
     result = games_dict.get(i)[6]
 
+    #1 --> White won, -1 --> Black won, 0 --> Draw
     if not result:
         continue
     if result == '1-0':
@@ -77,7 +79,7 @@ for i in games_dict:
     eco = games_dict.get(i)[11]
     games_list.append([id, white_player, black_player, white_elo, black_elo, moves, result, event, date, site, round, eco])
 
-print(len(games_list))
+
 c.execute('CREATE TABLE games( \
     id varchar NOT NULL primary key, \
     white_player str NOT NULL, \
@@ -92,6 +94,7 @@ c.execute('CREATE TABLE games( \
     round str, \
     eco str)')
 
+print(len(games_list))
 
 for i in range(len(games_list)):
     c.execute('INSERT INTO games VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',games_list[i])
