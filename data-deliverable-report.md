@@ -29,7 +29,7 @@
 
 Your data schema description goes here (at most around 300 words)
 
--**Data types/assumption of data types**<br>
+- **Data types/assumption of data types**<br>
 We think the following attributes would matter the most:  
 
   **The name of he game (eg. A vs B):**<br>
@@ -47,10 +47,10 @@ We think the following attributes would matter the most:
   **The opening used by the white player:**<br>
     Move sequence (opening) - VARCHAR  
 
--**Keys/cross-references**<br>
+- **Keys/cross-references**<br>
   The primary key we will be using will be Game. We will also use Date and Move sequence when joining daa to make sure our data is unique.  
 
--**Required/Optional fields**<br>
+- **Required/Optional fields**<br>
   The Game, White player name, Black player name, White player ELO rating, Black player ELO rating, and Date would be required fields. The Move sequence would be optional. We would be using the data of the openings when we can to analyze the effect of it on the winning/losing of specific players.  
 ***
 
