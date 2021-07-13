@@ -18,7 +18,7 @@ for list in lists:
         if(ind % 2 == 0) and (ind+1 < len(list)):
             games.append([item, list[ind + 1]])
 
-print(len(games))
+
 games_dict = {}
 for ind, game in enumerate(games):
     info = game[0].split("\n")
@@ -40,7 +40,6 @@ for ind, game in enumerate(games):
 
 conn = sqlite3.connect('data.db')
 c = conn.cursor()
-# print(games[0])
 
 c.execute('DROP TABLE IF EXISTS "games";')
 
@@ -51,23 +50,42 @@ for i in games_dict:
     black_player = games_dict.get(i)[2]
     white_elo = games_dict.get(i)[3]
     black_elo = games_dict.get(i)[4]
+    if not white_elo or not black_elo:
+        continue
+    white_elo = int(white_elo)
+    black_elo = int(black_elo)
+    if white_elo < 2500 or black_elo < 2500:
+        continue
     moves = games_dict.get(i)[5]
     result = games_dict.get(i)[6]
+
+    if not result:
+        continue
+    if result == '1-0':
+        result = 1
+    elif result == '0-1':
+        result = -1
+    elif result == '1/2-1/2':
+        result = 0
+
     event = games_dict.get(i)[7]
     date = games_dict.get(i)[8]
+    if "??" in date:
+        continue
     site = games_dict.get(i)[9]
     round = games_dict.get(i)[10]
     eco = games_dict.get(i)[11]
     games_list.append([id, white_player, black_player, white_elo, black_elo, moves, result, event, date, site, round, eco])
 
+print(len(games_list))
 c.execute('CREATE TABLE games( \
     id varchar NOT NULL primary key, \
     white_player str NOT NULL, \
     black_player str NOT NULL, \
-    white_elo str NOT NULL, \
-    black_elo str NOT NULL, \
+    white_elo int NOT NULL, \
+    black_elo int NOT NULL, \
     moves str NOT NULL, \
-    result str NOT NULL, \
+    result int NOT NULL, \
     event str, \
     date str NOT NULL, \
     site str NOT NULL, \

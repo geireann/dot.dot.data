@@ -29,8 +29,10 @@ for row in table:
         name = current[0].a.text
         id = current[1].text
         born = current[2].text
+        born = born.replace('-','.')
         birthplace = current[3].text
         died = current[4].text
+        died = died.replace('-','.')
         year = current[5].text
         fed = current[6].text
         sex = current[7].text
