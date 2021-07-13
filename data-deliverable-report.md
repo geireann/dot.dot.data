@@ -27,7 +27,7 @@
 
 ## Step 2
 
-### Your data schema description goes here (at most around 300 words)
+### Your data schema description goes here (at most around 300 words):
 - **Data types/assumption of data types**<br>
 We think the following attributes would matter the most:  
 
@@ -98,8 +98,7 @@ Another part of our analysis has to do with how AI, and statistical analysis of 
 
 ## Step 6
 
-
-Your team report goes here:  
+### Your team report goes here:  
 - **What are the major technical challenges that you anticipate with your project?**<br>
 At first, we couldn't figure out how to make sure the different data we downloaded can be joined together since we couldn't figure out a unique ID for distinguishing our data. Later we figured out that we could use dates and number of movements to make each game unique.
 
