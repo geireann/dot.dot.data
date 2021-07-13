@@ -100,7 +100,12 @@ Another part of our analysis has to do with how AI, and statistical analysis of 
 ## Step 6
 
 
-Your team report goes here
+Your team report goes here:  
+- **What are the major technical challenges that you anticipate with your project?**<br>
+At first, we couldn't figure out how to make sure the different data we downloaded can be joined together since we couldn't figure out a unique ID for distinguishing our data. Later we figured out that we could use dates and number of movements to make each game unique.
+
+- **How have you been distributing the work between group members? What are your plans for work distribution in the future?**<br>
+We made everyone download their data and try to merge them together and then figure out ways to process them. We also splitted the written questions for everyone to work on. In the future, we might need to start earlier and have more meetings.
 
 ## FORM
 Form link: https://forms.gle/sGYpbdHEhnBpo6tg7
