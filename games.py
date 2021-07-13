@@ -1,15 +1,16 @@
-import requests
 import sqlite3
-names = ['Modern.pgn', 'FourKnights.pgn', 'London2e6.pgn', 'QG-Chigorin.pgn', 'SicilianNajdorf6Bc4.pgn', 'GiuocoPiano.pgn',\
-         'London2g6.pgn', 'RuyLopezOther3.pgn', 'SicilianNajdorf6Be3.pgn', 'KIDClassical.pgn', 'QG-Albin.pgn', 'SicilianMisc2.pgn'\
-         'ThreeKnights.pgn', 'SlavExchange.pgn', 'KIDOther7.pgn', 'ScotchGambit.pgn']
+names = ['Modern.pgn', 'FourKnights.pgn', 'QG-Chigorin.pgn', 'SicilianNajdorf6Bc4.pgn', 'GiuocoPiano.pgn',\
+         'London2g6.pgn', 'RuyLopezOther3.pgn', 'KIDClassical.pgn', 'QG-Albin.pgn',\
+         'ThreeKnights.pgn']
+
+
 lists = []
 for name in names:
+    print(name)
     f = open("pgn/"+name, "r")
     data = f.read()
     list = data.split("\n\n")
     lists.append(list)
-
 
 games = []
 for list in lists:
@@ -17,6 +18,7 @@ for list in lists:
         if(ind % 2 == 0) and (ind+1 < len(list)):
             games.append([item, list[ind + 1]])
 
+print(len(games))
 games_dict = {}
 for ind, game in enumerate(games):
     info = game[0].split("\n")
@@ -74,7 +76,7 @@ c.execute('CREATE TABLE games( \
 
 
 for i in range(len(games_list)):
-    c.execute('INSERT INTO games VALUES (?, ?,?,?,?,?,?,?,?,?,?,?)',games_list[i])
+    c.execute('INSERT INTO games VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',games_list[i])
 
 conn.commit()
 print("done!")
