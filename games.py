@@ -1,14 +1,21 @@
 import requests
 import sqlite3
+names = ['Modern.pgn', 'FourKnights.pgn', 'London2e6.pgn', 'QG-Chigorin.pgn', 'SicilianNajdorf6Bc4.pgn', 'GiuocoPiano.pgn',\
+         'London2g6.pgn', 'RuyLopezOther3.pgn', 'SicilianNajdorf6Be3.pgn', 'KIDClassical.pgn', 'QG-Albin.pgn', 'SicilianMisc2.pgn'\
+         'ThreeKnights.pgn', 'SlavExchange.pgn', 'KIDOther7.pgn', 'ScotchGambit.pgn']
+lists = []
+for name in names:
+    f = open("pgn/"+name, "r")
+    data = f.read()
+    list = data.split("\n\n")
+    lists.append(list)
 
-f = open("pgn/Modern.pgn", "r")
-data = f.read()
-list = data.split("\n\n")
 
 games = []
-for ind,item in enumerate(list):
-    if(ind % 2 == 0) and (ind+1 < len(list)):
-        games.append([item, list[ind + 1]])
+for list in lists:
+    for ind,item in enumerate(list):
+        if(ind % 2 == 0) and (ind+1 < len(list)):
+            games.append([item, list[ind + 1]])
 
 games_dict = {}
 for ind, game in enumerate(games):
@@ -70,3 +77,4 @@ for i in range(len(games_list)):
     c.execute('INSERT INTO games VALUES (?, ?,?,?,?,?,?,?,?,?,?,?)',games_list[i])
 
 conn.commit()
+print("done!")
