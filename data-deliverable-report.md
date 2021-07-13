@@ -42,7 +42,7 @@ We think the following attributes would matter the most:
   **The id of the game (format: white player name, black player name, date):**<br>
     id (PRIMARY ID) - VARCHAR  
   **The name of the black player:**<br>
-    black_player - VARCHAR 
+    black_player - VARCHAR  
   **The name of the white player:**<br>
     white_player - VARCHAR  
   **The ELO rating of the white player:**<br>
