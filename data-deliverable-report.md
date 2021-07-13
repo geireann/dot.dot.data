@@ -21,7 +21,15 @@
 
 1. Your data collection description goes here (at most around 200 words)
 
+We used data from [ChessTempo](https://old.chesstempo.com/game-database.html#tab2), by web scraping the information that was available online using Beautiful Soup and then scraping the data in the table into a .db file, so that we had those data points and then turned those into .json files. 
+
+Secondly, we used data from the [FICS Games Database](https://www.ficsgames.org/download.html) to supplement the data we had collected previously. THe data from the FICS Games Database could be downloaded as an .csv, we went on to conver them into .json files as well. 
+
+Once we had all three data points as .json files, we combined them so that they could be ready for analysis. When collecting data, we are collecting game outcomes, using games as our primary key. We used three different sources of data and accounted for the discrepancies between these different data sets, additionally, we made sure that if we had games that were repeated between the data sets, we would only take one of them by having a unique key for each game. 
+
 2. Your data commentary goes here (at most around 200 words)
+
+Our data is all from reputable sources, particular the primary data source that we used, the FICS Games Database. The data that we have includes a multitude types of data. 
 
 ***
 
