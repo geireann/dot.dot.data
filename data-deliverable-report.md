@@ -39,26 +39,22 @@ Our data is all from reputable sources, particular the primary data source that 
 - **Data types/assumption of data types:**<br>
 We think the following attributes would matter the most:  
 
-  **The name of he game (eg. A vs B):**<br>
-    Game (PRIMARY ID) - VARCHAR  
-  **The name of the white player:**<br>
-    White player name (ID) - VARCHAR  
+  **The id of he game (format: white player name, black player name, date):**<br>
+    id (PRIMARY ID) - VARCHAR  
   **The name of the black player:**<br>
-    Black player name (ID) - VARCHAR  
+    black_player - VARCHAR 
+  **The name of the white player:**<br>
+    white_player - VARCHAR  
   **The ELO rating of the white player:**<br>
-    White player ELO rating - INT  
+    white_elo - INT  
   **The ELO rating of the black player:**<br>
-    Black player ELO rating - INT  
-  **The date of the game:**<br>
-    Date (year+month+day) - INT  
-  **The opening used by the white player:**<br>
-    Move sequence (opening) - VARCHAR  
+    black_elo - INT  
 
 - **Keys/cross-references:**<br>
-  The primary key we will be using will be Game. We will also use Date and Move sequence when joining daa to make sure our data is unique.  
+  The primary key we will be using will be id, which contains the name of the white player, the name of the black player, and the date of the match to make it unique.
 
 - **Required/Optional fields:**<br>
-  The Game, White player name, Black player name, White player ELO rating, Black player ELO rating, and Date would be required fields. The Move sequence would be optional. We would be using the data of the openings when we can to analyze the effect of it on the winning/losing of specific players.  
+  The id, black_player (name of black player), white_player (name of white player), white_elo, and black_elo would be required fields. We might also include the move sequence of the players as an optional field. We would use it to determine which openings the players used and its effect on the winning/losing of specific players.  
 ***
 
 ## Step 3
