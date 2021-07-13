@@ -27,8 +27,7 @@
 
 ## Step 2
 
-Your data schema description goes here (at most around 300 words)
-
+### Your data schema description goes here (at most around 300 words)
 - **Data types/assumption of data types**<br>
 We think the following attributes would matter the most:  
 
