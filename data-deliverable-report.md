@@ -39,7 +39,7 @@ Our data is all from reputable sources, particular the primary data source that 
 - **Data types/assumption of data types:**<br>
 We think the following attributes would matter the most:  
 
-  **The id of he game (format: white player name, black player name, date):**<br>
+  **The id of the game (format: white player name, black player name, date):**<br>
     id (PRIMARY ID) - VARCHAR  
   **The name of the black player:**<br>
     black_player - VARCHAR 
