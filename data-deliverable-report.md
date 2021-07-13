@@ -35,8 +35,30 @@ Our data is all from reputable sources, particular the primary data source that 
 
 ## Step 2
 
-Your data schema description goes here (at most around 300 words)
+### Your data schema description goes here (at most around 300 words):
+- **Data types/assumption of data types:**<br>
+We think the following attributes would matter the most:  
 
+  **The name of he game (eg. A vs B):**<br>
+    Game (PRIMARY ID) - VARCHAR  
+  **The name of the white player:**<br>
+    White player name (ID) - VARCHAR  
+  **The name of the black player:**<br>
+    Black player name (ID) - VARCHAR  
+  **The ELO rating of the white player:**<br>
+    White player ELO rating - INT  
+  **The ELO rating of the black player:**<br>
+    Black player ELO rating - INT  
+  **The date of the game:**<br>
+    Date (year+month+day) - INT  
+  **The opening used by the white player:**<br>
+    Move sequence (opening) - VARCHAR  
+
+- **Keys/cross-references:**<br>
+  The primary key we will be using will be Game. We will also use Date and Move sequence when joining daa to make sure our data is unique.  
+
+- **Required/Optional fields:**<br>
+  The Game, White player name, Black player name, White player ELO rating, Black player ELO rating, and Date would be required fields. The Move sequence would be optional. We would be using the data of the openings when we can to analyze the effect of it on the winning/losing of specific players.  
 ***
 
 ## Step 3
@@ -84,8 +106,12 @@ Another part of our analysis has to do with how AI, and statistical analysis of 
 
 ## Step 6
 
+### Your team report goes here:  
+- **What are the major technical challenges that you anticipate with your project?**<br>
+At first, we couldn't figure out how to make sure the different data we downloaded can be joined together since we couldn't figure out a unique ID for distinguishing our data. Later we figured out that we could use dates and number of movements to make each game unique.
 
-Your team report goes here
+- **How have you been distributing the work between group members? What are your plans for work distribution in the future?**<br>
+We made everyone download their data and try to merge them together and then figure out ways to process them. We also splitted the written questions for everyone to work on. In the future, we might need to start earlier and have more meetings.
 
 ## FORM
 Form link: https://forms.gle/sGYpbdHEhnBpo6tg7
