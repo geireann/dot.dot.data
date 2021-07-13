@@ -31,20 +31,21 @@ Your data schema description goes here (at most around 300 words)
 
 -**Data types/assumption of data types**<br>
 We think the following attributes would matter the most:  
+
   **The name of he game (eg. A vs B):**<br>
-  Game (PRIMARY ID) - VARCHAR  
+    Game (PRIMARY ID) - VARCHAR  
   **The name of the white player:**<br>
-  White player name (ID) - VARCHAR  
+    White player name (ID) - VARCHAR  
   **The name of the black player:**<br>
-  Black player name (ID) - VARCHAR  
+    Black player name (ID) - VARCHAR  
   **The ELO rating of the white player:**<br>
-  White player ELO rating - INT  
+    White player ELO rating - INT  
   **The ELO rating of the black player:**<br>
-  Black player ELO rating - INT  
+    Black player ELO rating - INT  
   **The date of the game:**<br>
-  Date (year+month+day) - INT  
+    Date (year+month+day) - INT  
   **The opening used by the white player:**<br>
-  Move sequence (opening) - VARCHAR  
+    Move sequence (opening) - VARCHAR  
 
 -**Keys/cross-references**<br>
   The primary key we will be using will be Game. We will also use Date and Move sequence when joining daa to make sure our data is unique.  
