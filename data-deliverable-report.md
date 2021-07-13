@@ -29,45 +29,28 @@
 
 Your data schema description goes here (at most around 300 words)
 
--Data types/assumption of data types
+-Data types/assumption of data types  
+We think the following attributes would matter the most:  
+  **The name of he game (eg. A vs B)**<br>  
+  Game (PRIMARY ID) - VARCHAR  
+  **The name of the white player**<br>  
+  White player name (ID) - VARCHAR  
+  **The name of the black player**<br>  
+  Black player name (ID) - VARCHAR  
+  **The ELO rating of the white player**<br>  
+  White player ELO rating - INT  
+  **The ELO rating of the black player**<br>  
+  Black player ELO rating - INT  
+  **The date of the game**<br>  
+  Date (year+month+day) - INT  
+  **The opening used by the white player**<br>  
+  Move sequence (opening) - VARCHAR  
 
-We think the following attributes would matter the most:
+-Keys/cross-references  
+  The primary key we will be using will be Game. We will also use Date and Move sequence when joining daa to make sure our data is unique.  
 
-  **The name of he game (eg. A vs B)**<br>
-
-  Game (PRIMARY ID) - VARCHAR
-
-  **The name of the white player**<br>
-
-  White player name (ID) - VARCHAR
-
-  **The name of the black player**<br>
-
-  Black player name (ID) - VARCHAR
-
-  **The ELO rating of the white player**<br>
-
-  White player ELO rating - INT
-
-  **The ELO rating of the black player**<br>
-
-  Black player ELO rating - INT
-
-  **The date of the game**<br>
-
-  Date (year+month+day) - INT
-
-  **The opening used by the white player**<br>
-
-  Move sequence (opening) - VARCHAR
-
--Keys/cross-references
-
-  The primary key we will be using will be Game. We will also use Date and Move sequence when joining daa to make sure our data is unique.
-
--Required/Optional fields
-
-  The Game, White player name, Black player name, White player ELO rating, Black player ELO rating, and Date would be required fields. The Move sequence would be optional. We would be using the data of the openings when we can to analyze the effect of it on the winning/losing of specific players.
+-Required/Optional fields  
+  The Game, White player name, Black player name, White player ELO rating, Black player ELO rating, and Date would be required fields. The Move sequence would be optional. We would be using the data of the openings when we can to analyze the effect of it on the winning/losing of specific players.  
 ***
 
 ## Step 3
