@@ -1,4 +1,13 @@
 import sqlite3
+import random
+import numpy as np
+import pandas as pd
+
+RANDOM_SEED = 0
+random.seed(RANDOM_SEED)
+np.random.seed(RANDOM_SEED)
+
+
 names = ['Modern.pgn', 'FourKnights.pgn', 'QG-Chigorin.pgn', 'SicilianNajdorf6Bc4.pgn', 'GiuocoPiano.pgn',\
          'London2g6.pgn', 'RuyLopezOther3.pgn', 'KIDClassical.pgn', 'QG-Albin.pgn',\
          'ThreeKnights.pgn', 'TrompowskyOther.pgn', 'CatalanClosed.pgn', 'BenkoGambit.pgn',\
@@ -94,10 +103,22 @@ c.execute('CREATE TABLE games( \
     round str, \
     eco str)')
 
-print(len(games_list))
 
 for i in range(len(games_list)):
-    c.execute('INSERT INTO games VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',games_list[i])
+    c.execute('INSERT INTO games VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', games_list[i])
 
 conn.commit()
-print("done!")
+
+def test_train_split(data, train_pct):
+    random.seed(RANDOM_SEED)
+    np.random.seed(RANDOM_SEED)
+    msk = np.random.rand(len(data)) < train_pct
+    return data[msk], data[~msk]
+
+df = pd.read_sql_query("select * from games;", conn)
+
+test, train = test_train_split(df, 0.8)
+print("test")
+print(test.head())
+print("train")
+print(train.head())
