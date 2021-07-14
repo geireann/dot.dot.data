@@ -60,7 +60,18 @@ We think the following attributes would matter the most:
 ## Step 3
 
 1. Your observation of the data prior to cleaning the data goes here (limit: 250 words)
+   The data prior had missing dates, result, moves, etc. Each of the data file is a games played using a particular opening.
+   The games from 10 most common openings are downloaded and merged together. The file is in PGN format.
+   The values of the entries was a string type. The data consisted games dated 1700s till February 2020. The size of
+   total games are in millions.
+   We also extracted the names of grandmaster from a wikipedia page including information about the age when they became a grandmaster,
+   place of origin, age, etc form wikipedia through web scraping.
+   
 2. Your data cleaning process and outcome goes here (at most around 250 words)
+    Dates were cleaned so that the format matches the format from wikipedia. All the entries with null values in player names
+   player elo, were removed. The game was filtered for elo>2500 (grandmasters). The results were changed to 1 if white wins, -1 if black wins and 0 is draw.
+   The elo was changed into an int. 
+   
 
 ***
 
