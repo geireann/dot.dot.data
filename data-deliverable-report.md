@@ -21,15 +21,15 @@
 
 1. Your data collection description goes here (at most around 200 words)
 
-We used data from [ChessTempo](https://old.chesstempo.com/game-database.html#tab2), by web scraping the information that was available online using Beautiful Soup and then scraping the data in the table into a .db file, so that we had those data points and then turned those into .json files. 
+We used data from [FIDE Grandmasters](https://en.wikipedia.org/wiki/List_of_chess_grandmasters), by web scraping the information that was available online using Beautiful Soup and then scraping the data in the table into a .db file, so that we had those data points and then turned those into .json files. 
 
-Secondly, we used data from the [FICS Games Database](https://www.ficsgames.org/download.html) to supplement the data we had collected previously. THe data from the FICS Games Database could be downloaded as an .csv, we went on to conver them into .json files as well. 
+Secondly, we used data from the [PGN Fide Database](http://www.pgnmentor.com/files.html) to supplement the data we had collected previously. THe data from the FIDE database could be downloaded as pgn files, which is a format specifically for chess games, we went on to conver them into .db files so that we could extract data and merge the games.db and grandmasters.db files.
 
-Once we had all three data points as .json files, we combined them so that they could be ready for analysis. When collecting data, we are collecting game outcomes, using games as our primary key. We used three different sources of data and accounted for the discrepancies between these different data sets, additionally, we made sure that if we had games that were repeated between the data sets, we would only take one of them by having a unique key for each game. 
+Once we had all three data points as .db files, we combined them using SQL so that they could be ready for analysis. 
 
-2. Your data commentary goes here (at most around 200 words)
+1. Your data commentary goes here (at most around 200 words)
 
-Our data is all from reputable sources, particular the primary data source that we used, the FICS Games Database. The data that we have includes a multitude types of data. 
+Our data is all from reputable sources, particular the primary data source that we used, the FICS Games Database and data from FIDE (via web scraping Wikipedia) to get the most up to date data on the chess grandmasters. The data that we have includes a multitude types of data. When collecting data, we are collecting game outcomes, using games as our primary key. We used three different sources of data and accounted for the discrepancies between these different data sets, additionally, we made sure that if we had games that were repeated between the data sets, we would only take one of them by having a unique key for each game. 
 
 ***
 
@@ -77,7 +77,7 @@ We have written a split function which randomly selects 80% of our total data fo
 ## Step 5
 
 ### Who are the major stakeholders of your project?
-The major stakeholders in our project are chess players, in particular chess players who are ranked above 2650 in the Elo system. Since we are primarly evaluating the games that have been played, in order to limit the scope of our project to something realistic we decided to set a lower boundary for chess players that we would include in our database. As a result, our project primarily handles data with regards to the chess games and which moves are played, but also additional information on the player, such as the age that they became the grandmaster, or their previous record. The major stakeholders in this project are as follows:
+The major stakeholders in our project are chess players, in particular chess players who are ranked above 2500 in the Elo system. Since we are primarly evaluating the games that have been played, in order to limit the scope of our project to something realistic we decided to set a lower boundary for chess players that we would include in our database. As a result, our project primarily handles data with regards to the chess games and which moves are played, but also additional information on the player, such as the age that they became the grandmaster, or their previous record. The major stakeholders in this project are as follows:
 - **Chess players**: The players are the primary stakeholders in our dataset, they are the group that we are evaluating and therefore are most impacted by it. This group is two-fold, we are evaluating grand masters as to learn from their opening moves and to find out if it is possible to make predictions based on factors that determine the data, but this project is also useful for amatuer chess players like us, who want to learn what opening moves we can do, or how we should play in order to improve our ability when playing chess. 
 - **International chess bodies**: Data availability in chess is strongly linked to how accessible the sport is to the general public. With websites such as chess.com, and lichess.com become more popular, international chess bodies are a relevant stakeholder in determining how games are decided. 
 - **Websites that host chess games**: Websites such as lichess.com and chess.com have significantly contributed to the accessibility of chess and also make such an analysis possible. 
@@ -91,7 +91,7 @@ Although this data, in particular the chess moves that are played, are [public d
 Although one may think that there are relatively few ethical problems arising from the project, due to the nature of chess, but that is in fact not the case. The most significant ethical problem has to do with the gender imbalance that exists in our data, but there are also geographical boundaries for chess players, as well as some that discriminate based on age. 
 
 - **Gender in Chess**<br>
-Since we decided to only evaluate players who are ranked above 2650, this also means that we only have one female identifying member in our dataset ([Source](ratings.fide.com/top.phtml?list=women)). Although gender identity and sex do not impact chess performance, women have been historically underepresented in chess as the are fewer female chess players to begin with ([Source](https://journals.sagepub.com/doi/full/10.1177/0956797620924051)). 
+Since we decided to only evaluate players who are ranked above 2500, this also means that we only have 16 female identifying member in our dataset ([Source](ratings.fide.com/top.phtml?list=women)). Although gender identity and sex do not impact chess performance, women have been historically underepresented in chess as the are fewer female chess players to begin with ([Source](https://journals.sagepub.com/doi/full/10.1177/0956797620924051)). 
 
 - **Age & Elo Ratings**<br>
 Another point that we need to consider is the ranking system that we are using: Elo. Although Elo is universally accepted, evidence has suggested that the rating understimates younger or inexperienced players and that their Elo ratings fall behind their actual performance. This understimarion is relevent to the gender comparison, as female identifying chess players are generally much younger (Mean = 21.6, Standard Deviation = 13.5) than their male counterparts (Mean = 36.8, Standard Deviation = 18.8)([Source](https://journals.sagepub.com/doi/full/10.1177/0956797620924051)). 
@@ -111,7 +111,7 @@ Another part of our analysis has to do with how AI, and statistical analysis of 
 At first, we couldn't figure out how to make sure the different data we downloaded can be joined together since we couldn't figure out a unique ID for distinguishing our data. Later we figured out that we could use dates and number of movements to make each game unique.
 
 - **How have you been distributing the work between group members? What are your plans for work distribution in the future?**<br>
-We made everyone download their data and try to merge them together and then figure out ways to process them. We also splitted the written questions for everyone to work on. In the future, we might need to start earlier and have more meetings.
+We made everyone download their data and try to merge them together and then figure out ways to process them. We also splitted the written questions for everyone to work on. In coming to a decisions, we made sure that it was unanimous among all of us. We decided on doing something that was intersting to all of us chess, both because we are interested in it but also because it has interesting ethical questions.  
 
 ## FORM
 Form link: https://forms.gle/sGYpbdHEhnBpo6tg7
