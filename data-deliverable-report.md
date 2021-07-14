@@ -67,7 +67,9 @@ We think the following attributes would matter the most:
 ## Step 4
 
 Your train-test data descriptions goes here (at most around 250 words)
-
+*The mode of analysis that could potentially come out from data can be both hypothesis testing through statistical tests (for example: testing if chess grand-masters have gotten stronger overtime) or Machine Learning model (for example: prediction of a winner).
+We have written a split function which randomly selects 80% of our total data for tests and 20% for training. The total number of observations we have is 10,947. This would make 8,800 data points for the test and 2147 for the train. Since our data is sizable, we might consider different percentages according to our model as we start analyzing.
+*
 ***
 
 ## Step 5

@@ -114,11 +114,11 @@ def test_train_split(data, train_pct):
     np.random.seed(RANDOM_SEED)
     msk = np.random.rand(len(data)) < train_pct
     return data[msk], data[~msk]
-
+print(len(games_list))
 df = pd.read_sql_query("select * from games;", conn)
 
 test, train = test_train_split(df, 0.8)
 print("test")
-print(test.head())
+print(len(test))
 print("train")
-print(train.head())
+print(len(train))
