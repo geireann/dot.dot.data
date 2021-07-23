@@ -61,7 +61,14 @@ for i in player_dict:
     sex = player_dict.get(i)[7]
     grandmasters.append([id, name, born, birthplace, died, year, fed, sex])
 
-c.execute('CREATE TABLE grandmasters(id varchar NOT NULL primary key, name str NOT NULL, born str NOT NULL, birthplace str NOT NULL, died int, year int NOT NULL, fed str, sex str NOT NULL)')
+c.execute('CREATE TABLE grandmasters(id varchar NOT NULL primary key, \
+    name str NOT NULL, \
+    born str NOT NULL, \
+    birthplace str NOT NULL, \
+    died int, \
+    year int NOT NULL, \
+    fed str, \
+    sex str NOT NULL)')
 
 
 for i in range(len(grandmasters)):

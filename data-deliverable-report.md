@@ -67,8 +67,8 @@ We think the following attributes would matter the most:
    We also extracted the names of grandmaster from a wikipedia page including information about the age when they became a grandmaster,
    place of origin, age, etc form wikipedia through web scraping.
    
-2. Your data cleaning process and outcome goes here (at most around 250 words)
-    Dates were cleaned so that the format matches the format from wikipedia. All the entries with null values in player names
+2. Your data cleaning process and outcome goes here (at most around 250 words) 
+   Dates were cleaned so that the format matches the format from wikipedia. All the entries with null values in player names
    player elo, were removed. The game was filtered for elo>2500 (grandmasters). The results were changed to 1 if white wins, -1 if black wins and 0 is draw.
    The elo was changed into an int. 
    
