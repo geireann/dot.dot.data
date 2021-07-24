@@ -1,32 +1,33 @@
 import sqlite3
 import random
+from difflib import SequenceMatcher
+
 import numpy as np
 import pandas as pd
+import operator
 
 RANDOM_SEED = 0
 random.seed(RANDOM_SEED)
 np.random.seed(RANDOM_SEED)
 
-
-names = ['Modern.pgn', 'FourKnights.pgn', 'QG-Chigorin.pgn', 'SicilianNajdorf6Bc4.pgn', 'GiuocoPiano.pgn',\
-         'London2g6.pgn', 'RuyLopezOther3.pgn', 'KIDClassical.pgn', 'QG-Albin.pgn',\
-         'ThreeKnights.pgn', 'TrompowskyOther.pgn', 'CatalanClosed.pgn', 'BenkoGambit.pgn',\
+names = ['Modern.pgn', 'FourKnights.pgn', 'QG-Chigorin.pgn', 'SicilianNajdorf6Bc4.pgn', 'GiuocoPiano.pgn', \
+         'London2g6.pgn', 'RuyLopezOther3.pgn', 'KIDClassical.pgn', 'QG-Albin.pgn', \
+         'ThreeKnights.pgn', 'TrompowskyOther.pgn', 'CatalanClosed.pgn', 'BenkoGambit.pgn', \
          'DutchOther.pgn']
 
 lists = []
 for name in names:
     print(name)
-    f = open("pgn/"+name, "r")
+    f = open("pgn/" + name, "r")
     data = f.read()
     list = data.split("\n\n")
     lists.append(list)
 
 games = []
 for list in lists:
-    for ind,item in enumerate(list):
-        if(ind % 2 == 0) and (ind+1 < len(list)):
+    for ind, item in enumerate(list):
+        if (ind % 2 == 0) and (ind + 1 < len(list)):
             games.append([item, list[ind + 1]])
-
 
 games_dict = {}
 for ind, game in enumerate(games):
@@ -43,9 +44,10 @@ for ind, game in enumerate(games):
         white_elo = info[7].split('"')[1]
         black_elo = info[8].split('"')[1]
         eco = info[9].split('"')[1]
-        id = white_player+","+black_player+","+date
+        id = white_player + "," + black_player + "," + date
         # print(id, white_player, black_player, white_elo, black_elo, moves, result, event, date, site, round, eco)
-        games_dict[id] = [id, white_player, black_player, white_elo, black_elo, moves, result, event, date, site, round, eco]
+        games_dict[id] = [id, white_player, black_player, white_elo, black_elo, moves, result, event, date, site, round,
+                          eco]
 
 conn = sqlite3.connect('data.db')
 c = conn.cursor()
@@ -59,7 +61,7 @@ for i in games_dict:
     black_player = games_dict.get(i)[2]
     white_elo = games_dict.get(i)[3]
     black_elo = games_dict.get(i)[4]
-    #dont include game with elo less than 2500
+    # dont include game with elo less than 2500
     if not white_elo or not black_elo:
         continue
     white_elo = int(white_elo)
@@ -69,7 +71,7 @@ for i in games_dict:
     moves = games_dict.get(i)[5]
     result = games_dict.get(i)[6]
 
-    #1 --> White won, -1 --> Black won, 0 --> Draw
+    # 1 --> White won, -1 --> Black won, 0 --> Draw
     if not result:
         continue
     if result == '1-0':
@@ -86,8 +88,8 @@ for i in games_dict:
     site = games_dict.get(i)[9]
     round = games_dict.get(i)[10]
     eco = games_dict.get(i)[11]
-    games_list.append([id, white_player, black_player, white_elo, black_elo, moves, result, event, date, site, round, eco])
-
+    games_list.append(
+        [id, white_player, black_player, white_elo, black_elo, moves, result, event, date, site, round, eco])
 
 c.execute('CREATE TABLE games( \
     id varchar NOT NULL primary key, \
@@ -103,22 +105,57 @@ c.execute('CREATE TABLE games( \
     round str, \
     eco str)')
 
-
 for i in range(len(games_list)):
     c.execute('INSERT INTO games VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', games_list[i])
 
 conn.commit()
+
 
 def test_train_split(data, train_pct):
     random.seed(RANDOM_SEED)
     np.random.seed(RANDOM_SEED)
     msk = np.random.rand(len(data)) < train_pct
     return data[msk], data[~msk]
-print(len(games_list))
-df = pd.read_sql_query("select * from games;", conn)
 
-test, train = test_train_split(df, 0.8)
-print("test")
-print(len(test))
-print("train")
-print(len(train))
+
+print(len(games_list))
+dfgames = pd.read_sql_query("select * from games;", conn)
+dfplayers = pd.read_sql_query("select * from grandmasters;", conn)
+# test, train = test_train_split(df, 0.8)
+
+dic = {}
+for players in dfplayers['name']:
+    if players not in dic:
+        dic[players] = 0
+
+correct = {}
+total = {}
+incorrect = []
+wh = dfgames['white_player'].to_numpy()
+for w in wh:
+    total[w] = '#'
+    if w in dic:
+        correct[w] = 0
+
+bl = dfgames['black_player'].to_numpy()
+for b in bl:
+    total[b] = '#'
+    if b in dic:
+        correct[b] = 0
+
+for v in total:
+    if v not in correct:
+        incorrect.append(v)
+
+maxes = []
+for names in total:
+    similarity = {}
+    for n in dic:
+        if n != names:
+            similarity[names + "#" + n] = SequenceMatcher(None, n, names).ratio()
+    maxes.append(max(similarity.items(), key=operator.itemgetter(1))[0])
+
+names = []
+for ele in maxes:
+    namea, nameb = ele.split('#')
+    print(f'{namea} -- {nameb}\n')
