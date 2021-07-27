@@ -1,7 +1,7 @@
 import sqlite3
 import random
 from difflib import SequenceMatcher
-
+import unicodedata
 import numpy as np
 import pandas as pd
 import operator
@@ -117,45 +117,137 @@ def test_train_split(data, train_pct):
     msk = np.random.rand(len(data)) < train_pct
     return data[msk], data[~msk]
 
+def clean(text):
+    #strip away the accent
+    '''
+    text = ''.join(char for char in \
+                   unicodedata.normalize('NFKD', text) if unicodedata.category(char) != 'Mn')
+    '''
+    text = text.replace(', ', ' ')
+    text = text.replace(',', ' ')
+    text = text.replace('.', '')
+    text = text.split(' ')
+    if len(text) >= 2:
+        text = text[0] + '.' + (text[-1])[0]
+    else:
+        text = text[0] + '.'
+    return text
 
-print(len(games_list))
 dfgames = pd.read_sql_query("select * from games;", conn)
 dfplayers = pd.read_sql_query("select * from grandmasters;", conn)
+#dfplayers['name'] = dfplayers['name'].apply(clean)
+#dfgames['black_player'] = dfgames['black_player'].apply(clean)
+#dfgames['white_player'] = dfgames['white_player'].apply(clean)
+
 # test, train = test_train_split(df, 0.8)
 
 dic = {}
-for players in dfplayers['name']:
+dplayers = dfplayers['name'].to_numpy()
+for players in dplayers:
     if players not in dic:
-        dic[players] = 0
+        id = dfplayers.loc[dfplayers['name'] == players, 'id'].to_numpy()
+        if len(id) == 1:
+            dic[players] = id
+        else:
+            dic[players] = 0
+
+#print(len(dic))
 
 correct = {}
 total = {}
 incorrect = []
+count = 0
 wh = dfgames['white_player'].to_numpy()
 for w in wh:
     total[w] = '#'
     if w in dic:
-        correct[w] = 0
+        total[w] = dic[w]
 
 bl = dfgames['black_player'].to_numpy()
 for b in bl:
     total[b] = '#'
     if b in dic:
-        correct[b] = 0
+        total[b] = dic[b]
 
+maxes = []
+
+for names in total:
+    similarity = {}
+    if names not in dic:
+        for n in dic:
+            num = SequenceMatcher(None, n, names).ratio()
+            if num >= 0.8:
+                similarity[names + '##' + n] = num
+        try:
+            m = max(similarity.items(), key=operator.itemgetter(1))[0]
+            namea, nameb = m.split('##')
+            total[namea] = dic[nameb]
+            maxes.append(m)
+        except:
+            total[names] = 0
+            continue
+
+def set_FIDE_ID(names):
+    if names in total:
+        return total[names]
+    else:
+        return 0
+
+dfgames['Black_FIDE_ID'] = dfgames['black_player'].apply(set_FIDE_ID)
+dfgames['White_FIDE_ID'] = dfgames['white_player'].apply(set_FIDE_ID)
+
+
+dfgames.to_excel('id.xlsx')
+
+print(f'total ={len(total)}')
+print(f'dic ={len(dic)}')
+print(f'count = {count}')
+
+
+'''
+for names in total:
+    similarity = {}
+    if total[names] == '#':
+        for n in dic:
+            num = SequenceMatcher(None, n, names).ratio()
+            if num >= 0.8:
+                similarity[names + "#" + n] = num
+    try:
+        m = max(similarity.items(), key=operator.itemgetter(1))[0]
+        namea, nameb = m.split('#')
+        total[nameb] = dic[namea]
+        maxes.append(m)
+    except:
+        continue
+
+
+
+for ele in maxes:
+    namea, nameb = ele.split('#')
+    print(f'{namea} -- {nameb}\n')
+'''
+'''
 for v in total:
     if v not in correct:
         incorrect.append(v)
 
 maxes = []
+
 for names in total:
     similarity = {}
     for n in dic:
         if n != names:
-            similarity[names + "#" + n] = SequenceMatcher(None, n, names).ratio()
-    maxes.append(max(similarity.items(), key=operator.itemgetter(1))[0])
+            num = SequenceMatcher(None, n, names).ratio()
+            if num >= 0.7:
+                similarity[names + "#" + n + "->index " + str(num)] = num
+    try:
+        m = max(similarity.items(), key=operator.itemgetter(1))[0]
+        maxes.append(m)
+    except:
+        continue
 
 names = []
 for ele in maxes:
     namea, nameb = ele.split('#')
     print(f'{namea} -- {nameb}\n')
+'''
