@@ -6,6 +6,10 @@ import numpy as np
 import pandas as pd
 import operator
 from sklearn import svm
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from  sklearn import tree
 
 conn = sqlite3.connect('data.db')
 c = conn.cursor()
@@ -116,4 +120,17 @@ dfgames['white_gm_age'] = dfgames['id'].apply(getWhiteGM)
 dfgames['black_time_since_gm'] = dfgames['id'].apply(getWhiteTime)
 dfgames['white_time_since_gm'] = dfgames['id'].apply(getBlackTime)
 
+c.execute('DROP TABLE IF EXISTS "games_new";')
 
+dfgames.to_sql('games_new', con=conn)
+
+# dfgames.to_excel('id.xlsx')
+
+print("complete")
+
+# # drop general
+# dfgames.drop['round', 'eco', 'id1' ]
+# # drop black
+# dfgames.drop['black_id', 'black_birthplace', 'black_born', 'black_year']
+# # drop white
+# dfgames.drop['white_id', 'white_birthplace', 'white_born', 'white_year']
