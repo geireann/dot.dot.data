@@ -2,8 +2,8 @@ import sqlite3
 import random
 from difflib import SequenceMatcher
 import unicodedata
-import numpy as np
 import pandas as pd
+import numpy as np
 import operator
 
 RANDOM_SEED = 0
