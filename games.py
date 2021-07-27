@@ -160,16 +160,22 @@ count = 0
 wh = dfgames['white_player'].to_numpy()
 for w in wh:
     total[w] = '#'
+    # print(w)
     if w in dic:
         total[w] = dic[w]
+        correct[w] = dic[w]
 
 bl = dfgames['black_player'].to_numpy()
 for b in bl:
     total[b] = '#'
+    # print(b)
     if b in dic:
         total[b] = dic[b]
+        correct[b] = dic[b]
 
 maxes = []
+print(len(correct))
+print(len(total))
 
 for names in total:
     similarity = {}
@@ -189,15 +195,18 @@ for names in total:
 
 def set_FIDE_ID(names):
     if names in total:
-        return total[names]
+        return int(total[names])
     else:
         return 0
 
-dfgames['Black_FIDE_ID'] = dfgames['black_player'].apply(set_FIDE_ID)
-dfgames['White_FIDE_ID'] = dfgames['white_player'].apply(set_FIDE_ID)
+dfgames['black_fide_id'] = dfgames['black_player'].apply(set_FIDE_ID)
+dfgames['white_fide_id'] = dfgames['white_player'].apply(set_FIDE_ID)
 
+c.execute('DROP TABLE IF EXISTS "games_id";')
 
-dfgames.to_excel('id.xlsx')
+dfgames.to_sql('games_id', con=conn)
+
+# dfgames.to_excel('id.xlsx')
 
 print(f'total ={len(total)}')
 print(f'dic ={len(dic)}')
