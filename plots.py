@@ -1,13 +1,37 @@
+import sqlite3
+import random
+from difflib import SequenceMatcher
+import unicodedata
+import numpy as np
+import pandas as pd
+from sklearn import svm
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from  sklearn import tree
+
+conn = sqlite3.connect('data.db')
+c = conn.cursor()
+
+dfgames = pd.read_sql_query("select * from games_new;", conn)
+
+np_array = np.array([dfgames['white_age'], dfgames['black_age'], dfgames['black_time_since_gm'], dfgames['white_time_since_gm'], dfgames['black_gm_age'], dfgames['white_gm_age']])
+
+print(np.shape(np_array))
 
 ## DECISION TREE
-# X = [dfgames['white_age'], dfgames['black_age'], dfgames['black_time_since_gm'], dfgames['white_time_since_gm'], dfgames['black_gm_age'], dfgames['white_gm_age']]
-# # X = dfgames['white_age']
-# y = dfgames['result']
+X = np_array.T
+# X = ([dfgames['white_age'], dfgames['black_age'], dfgames['black_time_since_gm'], dfgames['white_time_since_gm'], dfgames['black_gm_age'], dfgames['white_gm_age']]).T
+y = dfgames['result']
 
-# clf = tree.DecisionTreeClassifier()
-# clf = clf.fit(X,y)
 
-# tree.plot_tree(clf)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
+
+
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X_train,y_train)
+
+tree.plot_tree(clf)
 
 
 ## SVM

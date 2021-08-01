@@ -110,6 +110,10 @@ def getWhiteTime(id):
 		time = 0
 	return time
 
+def getEloDiff (id):
+	black_elo = int(dfgames.loc[id == dfgames['id'],'black_elo'].item())
+	white_elo = int(dfgames.loc[id == dfgames['id'],'white_elo'].item())
+	return white_elo - black_elo
 
 dfgames['black_age'] = dfgames['id'].apply(getBlackAge)
 dfgames['white_age'] = dfgames['id'].apply(getWhiteAge)
@@ -119,6 +123,8 @@ dfgames['white_gm_age'] = dfgames['id'].apply(getWhiteGM)
 
 dfgames['black_time_since_gm'] = dfgames['id'].apply(getWhiteTime)
 dfgames['white_time_since_gm'] = dfgames['id'].apply(getBlackTime)
+
+dfgames['elo_diff'] = dfgames['id'].apply(getEloDiff)
 
 c.execute('DROP TABLE IF EXISTS "games_new";')
 

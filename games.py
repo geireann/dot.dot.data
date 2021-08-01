@@ -80,6 +80,8 @@ for i in games_dict:
         result = -1
     elif result == '1/2-1/2':
         result = 0
+    else:
+        continue
 
     event = games_dict.get(i)[7]
     date = games_dict.get(i)[8]

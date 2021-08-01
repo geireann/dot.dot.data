@@ -16,7 +16,7 @@ conn.commit()
 
 c.execute('DROP TABLE IF EXISTS "merge";')
 
-c.execute('CREATE TABLE merge( id, result, moves, date, round, eco, black_id, black_player, black_born, black_birthplace, black_year, black_fed, black_sex, id1, white_id, white_player, white_born, white_birthplace, white_year, white_fed, white_sex)')
+c.execute('CREATE TABLE merge( id, result, moves, date, round, eco, black_elo, black_id, black_player, black_born, black_birthplace, black_year, black_fed, black_sex, id1, white_elo, white_id, white_player, white_born, white_birthplace, white_year, white_fed, white_sex)')
 
 c.execute('WITH white_sub AS (SELECT \
 			games_id.id AS id, \
@@ -25,6 +25,7 @@ c.execute('WITH white_sub AS (SELECT \
 			games_id.date AS date, \
 			games_id.round AS round, \
 			games_id.eco AS eco, \
+			games_id.black_elo AS black_elo, \
 			grandmasters.id AS black_id, \
 			grandmasters.name AS black_player, \
 			grandmasters.born as black_born, \
@@ -38,6 +39,7 @@ c.execute('WITH white_sub AS (SELECT \
 ), black_sub AS ( \
 	SELECT \
 			games_id.id AS id1, \
+			games_id.white_elo AS white_elo, \
 			grandmasters.id AS white_id, \
 			grandmasters.name AS white_player, \
 			grandmasters.born as white_born, \
@@ -49,7 +51,7 @@ c.execute('WITH white_sub AS (SELECT \
 		LEFT JOIN games_id \
 		ON games_id.black_fide_id = grandmasters.id \
 ) \
-INSERT INTO merge (id, result, moves, date, round, eco, black_id, black_player, black_born, black_birthplace, black_year, black_fed, black_sex, id1, white_id, white_player, white_born, white_birthplace, white_year, white_fed, white_sex) \
+INSERT INTO merge (id, result, moves, date, round, eco, black_elo, black_id, black_player, black_born, black_birthplace, black_year, black_fed, black_sex, id1, white_elo, white_id, white_player, white_born, white_birthplace, white_year, white_fed, white_sex) \
 SELECT white_sub.*, black_sub.* \
 FROM (white_sub) \
 JOIN (black_sub) \
