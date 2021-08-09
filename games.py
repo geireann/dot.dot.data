@@ -214,6 +214,12 @@ print(f'total ={len(total)}')
 print(f'dic ={len(dic)}')
 print(f'count = {count}')
 
+#ML positional analysis
+
+
+
+
+
 
 '''
 for names in total:
