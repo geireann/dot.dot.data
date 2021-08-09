@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from  sklearn import tree
 
-conn = sqlite3.connect('data.db')
+conn = sqlite3.connect('../data-cleaning/data.db')
 c = conn.cursor()
 
 dfgames = pd.read_sql_query("select * from games_new;", conn)

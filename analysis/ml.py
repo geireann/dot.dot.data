@@ -36,7 +36,7 @@ def get_chess_df():
     """
     Helper function. Will return a Pandas DataFrame for the Chess Dataset
     """
-    conn = sqlite3.connect('data.db')
+    conn = sqlite3.connect('../data-cleaning/data.db')
     return pd.read_sql_query("select * from games_new;", conn)
     
     

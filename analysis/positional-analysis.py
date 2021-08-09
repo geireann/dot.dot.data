@@ -18,7 +18,7 @@ RANDOM_SEED = 0
 random.seed(RANDOM_SEED)
 np.random.seed(RANDOM_SEED)
 
-conn = sqlite3.connect('data.db')
+conn = sqlite3.connect('../data-cleaning/data.db')
 c = conn.cursor()
 
 def get_fen(num_games):
