@@ -117,6 +117,7 @@ def test_train_split(data, train_pct):
     msk = np.random.rand(len(data)) < train_pct
     return data[msk], data[~msk]
 
+
 def clean(text, dataset):
     #strip away the accent
     '''
@@ -124,30 +125,36 @@ def clean(text, dataset):
                    unicodedata.normalize('NFKD', text) if unicodedata.category(char) != 'Mn')
     '''
     text = text.lower()
-    text = text.replace('č', 'c')
     text = text.replace('š', 's')
     text = text.replace('á', 'a')
     text = text.replace('é', 'e')
     text = text.replace('è', 'e')
     text = text.replace('ê', 'e')
-    text = text.replace('ç', 'c')
     text = text.replace('ó', 'o')
     text = text.replace('ũ', 'u')
     text = text.replace('Đ', 'D')
-    text = text.replace('ờ', 'o')
+    text = text.replace('à', 'a')
     text = text.replace('â', 'a')
     text = text.replace('ả', 'a')
     text = text.replace('á', 'a')
+    text = text.replace('ă', 'a')
     text = text.replace('ć', 'c')
+    text = text.replace('ç', 'c')
+    text = text.replace('č', 'c')
     text = text.replace('ừ', 'u')
-    text = text.replace('à', 'a')
+    text = text.replace('ứ', 'u')
     text = text.replace('ô', 'o')
+    text = text.replace('ò', 'o')
+    text = text.replace('ờ', 'o')
+    text = text.replace('ọ', 'o')
+    text = text.replace('ơ', 'o')
     text = text.replace('ễ', 'e')
     text = text.replace('-', '')
     text = text.replace('1', '')
     text = text.replace('2', '')
     text = text.replace('3', '')
     text = text.replace('4', '')
+    text = text.replace('đ', 'd')
     if "," in text:
         text = text.split(',')
         return text[0]
@@ -164,24 +171,16 @@ def clean(text, dataset):
             text = text.split(' ')
             return text[0]
         text = text.replace(' ', '')
-        if(dataset == 'players'):
-            print(text)
-            print("(" + dataset + ")")
+        # if(dataset == 'players'):
+            # print("[" + dataset + "] " + text)
         return text[0]
 
 dfgames = pd.read_sql_query("select * from games;", conn)
 dfplayers = pd.read_sql_query("select * from grandmasters;", conn)
-#dfplayers['name'] = dfplayers['name'].apply(clean)
-#dfgames['black_player'] = dfgames['black_player'].apply(clean)
-#dfgames['white_player'] = dfgames['white_player'].apply(clean)
-
-# test, train = test_train_split(df, 0.8)
 
 dic = {}
 dplayers = dfplayers['name'].to_numpy()
 for players in dplayers:
-    # print(players)
-    #cp = cleaned player
     cp = clean(players, "players")
     if cp not in dic:
         id = dfplayers.loc[dfplayers['name'] == players, 'id'].to_numpy()
@@ -196,29 +195,28 @@ for players in dplayers:
     #     else:
     #         dic[name] = 0
 
-#print(len(dic))
-
 correct = {}
 total = {}
 incorrect = []
 count = 0
 wh = dfgames['white_player'].to_numpy()
 for w in wh:
-    total[w] = '#'
     w = clean(w, "games_white")
-    # print(w)
+    total[w] = '#'
     if w in dic:
         total[w] = dic[w]
         correct[w] = dic[w]
 
 bl = dfgames['black_player'].to_numpy()
 for b in bl:
+    b = clean(b, "games_black")
     total[b] = '#'
-    n = clean(b, "games_black")
-    # print(b)
-    if n in dic:
-        total[n] = dic[n]
-        correct[n] = dic[n]
+    if b in dic:
+        total[b] = dic[b]
+        correct[b] = dic[b]
+
+for name in total:
+    print (name)
 
 print(len(correct))
 print(len(total))
@@ -226,24 +224,25 @@ print(len(total))
 maxes = []
 
 # comparison
-for names in total:
+for name in total:
     similarity = {}
     for n in dic:
-        num = SequenceMatcher(None, n, names).ratio()
+        num = SequenceMatcher(None, n, name).ratio()
         if num >= 0.8:
-            similarity[names + '##' + n] = num
+            similarity[name + '##' + n] = num
     try:
         m = max(similarity.items(), key=operator.itemgetter(1))[0]
         namea, nameb = m.split('##')
         total[namea] = dic[nameb]
         maxes.append(m)
     except:
-        total[names] = 0
+        total[name] = 0
         continue
 
-def set_FIDE_ID(names):
-    if names in total:
-        return float(total[names])
+def set_FIDE_ID(name):
+    n = clean(name, "ID")
+    if n in total:
+        return float(total[n])
     else:
         return 0
 
@@ -251,8 +250,10 @@ def set_FIDE_ID(names):
 dfgames['black_FIDE_ID'] = dfgames['black_player'].apply(set_FIDE_ID)
 dfgames['white_FIDE_ID'] = dfgames['white_player'].apply(set_FIDE_ID)
 
+c.execute('DROP TABLE IF EXISTS "games_id";')
 
-dfgames.to_excel('out.xlsx')
+dfgames.to_sql('games_id', con=conn)
+# dfgames.to_excel('out.xlsx')
 
 print(f'total ={len(total)}')
 print(f'dic ={len(dic)}')
