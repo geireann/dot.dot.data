@@ -1,7 +1,5 @@
 import sqlite3
-import random
 from difflib import SequenceMatcher
-import unicodedata
 import numpy as np
 import pandas as pd
 from sklearn import svm
