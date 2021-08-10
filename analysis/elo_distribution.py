@@ -13,7 +13,7 @@ from  sklearn import tree
 conn = sqlite3.connect('../data-cleaning/data.db')
 c = conn.cursor()
 
-df_games = pd.read_sql_query("select * from games_new;", conn)
+df_games = pd.read_sql_query("select * from games_final_cat;", conn)
 
 df_elo = pd.concat([df_games['black_elo'], df_games['white_elo']])
 
@@ -34,3 +34,16 @@ print("Max:", elo_max)
 print("Q1:", elo_q1, "Median:", elo_median, "Q3:",  elo_q3)
 print("Standard deviation:", elo_std)
 print("Variance:", elo_var)
+
+def elo_to_category(elo):
+    if elo <= elo_q1:
+        return "q1"
+    elif elo > elo_q1 and elo <= elo_median:
+        return "q2"
+    elif elo > elo_median and elo <= elo_q3:
+        return "q3"
+    elif elo > elo_q3:
+        return "q4"
+
+df_games['black_elo_cat'] = df_games['black_elo'].apply(elo_to_category)
+df_games['white_elo_cat'] = df_games['white_elo'].apply(elo_to_category)

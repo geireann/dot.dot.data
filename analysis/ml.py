@@ -37,7 +37,7 @@ def get_chess_df():
     Helper function. Will return a Pandas DataFrame for the Chess Dataset
     """
     conn = sqlite3.connect('../data-cleaning/data.db')
-    return pd.read_sql_query("select * from games_new;", conn)
+    return pd.read_sql_query("select * from games_final_cat;", conn)
     
     
 ############### MACHINE LEARNING MODELS ###############
@@ -47,7 +47,7 @@ KNN_NUM_NEIGHBORS = 5 # Feel free to modify this!
 RANDOM_SEED = 0
 TRAFFIC_STOPS_NONNUMERICAL_COLS = ["county_name", "driver_gender", "driver_race", "violation", "search_conducted",\
                                     "stop_outcome", "is_arrested", "drugs_related_stop"]
-CHESS_NONNUMERICAL_COLS = ["white_sex", "black_sex", "white_fed", "black_fed"]
+CHESS_NONNUMERICAL_COLS = ["white_sex", "black_sex", "white_fed", "black_fed", "white_age_cat", "black_age_cat", "black_elo_cat", "white_elo_cat", "white_gm_age_cat", "black_gm_age_cat"]
 
 
 def get_trained_model(dataset_name, model_name, target_name=None, feature_names=None):

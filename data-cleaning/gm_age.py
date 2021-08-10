@@ -115,6 +115,21 @@ def getEloDiff (id):
 	white_elo = int(dfgames.loc[id == dfgames['id'],'white_elo'].item())
 	return white_elo - black_elo
 
+def getTimeSinceGMDiff (id):
+	black_time_since_gm = int(dfgames.loc[id == dfgames['id'],'black_time_since_gm'].item())
+	white_time_since_gm = int(dfgames.loc[id == dfgames['id'],'white_time_since_gm'].item())
+	return white_time_since_gm - black_time_since_gm
+
+def getGMAgeDiff (id):
+	black_gm_age = int(dfgames.loc[id == dfgames['id'],'black_gm_age'].item())
+	white_gm_age = int(dfgames.loc[id == dfgames['id'],'white_gm_age'].item())
+	return white_gm_age - black_gm_age
+
+def getAgeDiff (id):
+	black_age = int(dfgames.loc[id == dfgames['id'],'black_age'].item())
+	white_age = int(dfgames.loc[id == dfgames['id'],'white_age'].item())
+	return white_age - black_age
+
 dfgames['black_age'] = dfgames['id'].apply(getBlackAge)
 dfgames['white_age'] = dfgames['id'].apply(getWhiteAge)
 
@@ -125,6 +140,9 @@ dfgames['black_time_since_gm'] = dfgames['id'].apply(getWhiteTime)
 dfgames['white_time_since_gm'] = dfgames['id'].apply(getBlackTime)
 
 dfgames['elo_diff'] = dfgames['id'].apply(getEloDiff)
+dfgames['age_diff'] = dfgames['id'].apply(getAgeDiff)
+dfgames['time_since_gm_diff'] = dfgames['id'].apply(getTimeSinceGMDiff)
+dfgames['gm_age_diff'] = dfgames['id'].apply(getGMAgeDiff)
 
 c.execute('DROP TABLE IF EXISTS "games_new";')
 

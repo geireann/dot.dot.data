@@ -155,18 +155,28 @@ def clean(text, dataset):
     text = text.replace('3', '')
     text = text.replace('4', '')
     text = text.replace('đ', 'd')
+    if "xiangzhi" in text:
+        return "xiangzhi"
+    if "prithu" in text:
+        return "prithu"
+    if "swapnil" in text:
+        return "swapnil"
+    if "vishnu" in text:
+        return "vishnu"
+    if "visakh" in text:
+        return "visakh"
+    if "christiansen" in text:
+        text = text.replace(' ', '')
+        text = text.split(',')
+        return (text[0]+text[1][0])
+    if "smirnov" in text:
+        text = text.replace(' ', '')
+        text = text.split(',')
+        return (text[0]+text[1][0])
     if "," in text:
         text = text.split(',')
         return text[0]
     else:
-        if "prithu" in text:
-            return "prithu"
-        if "swapnil" in text:
-            return "swapnil"
-        if "vishnu" in text:
-            return "vishnu"
-        if "visakh" in text:
-            return "visakh"
         if "." in text:
             text = text.split(' ')
             return text[0]
@@ -215,9 +225,6 @@ for b in bl:
         total[b] = dic[b]
         correct[b] = dic[b]
 
-for name in total:
-    print (name)
-
 print(len(correct))
 print(len(total))
 
@@ -228,7 +235,7 @@ for name in total:
     similarity = {}
     for n in dic:
         num = SequenceMatcher(None, n, name).ratio()
-        if num >= 0.8:
+        if num >= 1:
             similarity[name + '##' + n] = num
     try:
         m = max(similarity.items(), key=operator.itemgetter(1))[0]
