@@ -49,7 +49,7 @@ def plot_multiclass_fig_2D():
         Xs = examples[:, 1] # get all rows from column 0 (elo_diff)
         Ys = examples[:, 2] # get all rows from column 1 (time_since_gm_diff)
         # for running different tests
-        ax.scatter(Xs, Ys, c=color_mapping[cls]) # c: color
+        ax.scatter(Xs, Ys, c=color_mapping[cls], alpha=0.3) # c: color
 
     # title, axes
     ax.set_title("Scatter Plot")
@@ -113,7 +113,7 @@ def plot_multiclass_fig_3D():
 
 def svm(model_name="svm"):
     TARGET_NAME = "result"
-    FEATURE_NAMES = ["elo_diff", "time_since_gm_diff", "gm_age_diff", "age_diff"]
+    FEATURE_NAMES = ["elo_diff", "time_since_gm_diff"]
     model, ohe, train_df, test_df = get_trained_model("chess", model_name, TARGET_NAME, FEATURE_NAMES)
     test_acc, test_y_pred, test_y_targ = get_model_accuracy(model, test_df, ohe, "chess", TARGET_NAME, FEATURE_NAMES)
     train_acc, train_y_pred, train_y_targ = get_model_accuracy(model, train_df, ohe, "chess", TARGET_NAME, FEATURE_NAMES)
@@ -170,6 +170,6 @@ def svm(model_name="svm"):
 
 if __name__ == "__main__":
     print("SVM")
-    # svm()
+    svm()
     # plot_multiclass_fig_3D()
-    plot_multiclass_fig_2D()
+    # plot_multiclass_fig_2D()

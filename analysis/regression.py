@@ -88,20 +88,22 @@ def main():
     conn = sqlite3.connect('../data-cleaning/data.db')
     c = conn.cursor()
 
-    dfgames = pd.read_sql_query("select * from games_new;", conn)
+    dfgames = pd.read_sql_query("select * from games_final_cat;", conn)
     
-    # Uncomment this to print out the column names of data to know what features there are 
-    # in the dataset
     print("Columns: ", dfgames.columns)
 
-    # Modify the list IND_VAR_NAMES to select the independent variables you want to perform
-    # a linear regression on
-    IND_VAR_NAMES = ['white_gm_age', 'white_time_since_gm', 'white_age', 'black_gm_age', 'black_time_since_gm', 'black_age', 'elo_diff']
-    # IND_VAR_NAMES = ['season','yr','mnth','holiday','weekday','workingday','weathersit','temp','atemp','hum','windspeed']
+    IND_VAR_NAMES = ['elo_diff', 'age_diff', 'time_since_gm_diff']
 
-    # Select the dependent variable name DEP_VAR_NAME (default is "cnt")
     DEP_VAR_NAME = "result"
 
+    dfnew = dfgames[[DEP_VAR_NAME] + IND_VAR_NAMES]
+
+
+    for col in [DEP_VAR_NAME] + IND_VAR_NAMES:
+        dfnew[col] = dfnew[col].astype(int)
+
+
+    print(dfnew)
     # Using the imported train_test_split function (from util.py), create the train_df and
     # test_df that will be passed into regression.
     split = train_test_split(dfgames)
@@ -114,6 +116,4 @@ def main():
 ############ DON'T MODIFY BELOW THIS LINE ############
 
 if __name__ == "__main__":
-    np.random.seed(RANDOM_SEED)
-    random.seed(RANDOM_SEED)
     main()

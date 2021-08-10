@@ -42,7 +42,7 @@ def get_chess_df():
     
 ############### MACHINE LEARNING MODELS ###############
 
-TEST_SIZE = 0.2 # Feel free to modify this!
+TEST_SIZE = 0.3 # Feel free to modify this!
 KNN_NUM_NEIGHBORS = 5 # Feel free to modify this!
 RANDOM_SEED = 0
 TRAFFIC_STOPS_NONNUMERICAL_COLS = ["county_name", "driver_gender", "driver_race", "violation", "search_conducted",\
