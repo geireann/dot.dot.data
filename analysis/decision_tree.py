@@ -28,10 +28,11 @@ def decision_tree(model_name="decision_tree"):
 
     # if model_name is not 'dummy':
         # plt.savefig("../graphs/[" + model_name + "]-confusion_matrix")
-    tree.plot_tree(model,
+    tree.plot_tree(model, max_depth=3,
                    class_names=TARGET_NAME,
                    filled=True)
     plt.title('Player Decision Tree')
+    # plt.show()
     plt.savefig("../graphs/chess_decision_tree")
 
 if __name__ == "__main__":

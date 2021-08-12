@@ -26,13 +26,11 @@ def plot_multiclass_fig_2D():
     # define the color mapping
     color_mapping = {
         '-1': "red",
-        '0': "blue",
         '1': "green",
     }
 
     # define the label mapping
     label_mapping = {
-        "Draw",
         "Black wins",
         "White wins"
     }
@@ -41,7 +39,7 @@ def plot_multiclass_fig_2D():
     df_new.dropna()
 
     # for each class
-    for cls in ['0','-1','1']:
+    for cls in ['-1','1']:
         # get the examples of that class
         examples = df_new[df_new['result'] == cls].to_numpy()
         print(examples)
@@ -49,7 +47,7 @@ def plot_multiclass_fig_2D():
         Xs = examples[:, 1] # get all rows from column 0 (elo_diff)
         Ys = examples[:, 2] # get all rows from column 1 (time_since_gm_diff)
         # for running different tests
-        ax.scatter(Xs, Ys, c=color_mapping[cls], alpha=0.3) # c: color
+        ax.scatter(Xs, Ys, c=color_mapping[cls], alpha=0.4) # c: color
 
     # title, axes
     ax.set_title("Scatter Plot")
@@ -59,7 +57,8 @@ def plot_multiclass_fig_2D():
     ax.legend(labels=label_mapping)
     
     # save the figure
-    plt.savefig("../graphs/2d-scatter")
+    plt.show()
+    # plt.savefig("../graphs/2d-scatter")
 
 def plot_multiclass_fig_3D():
     df = get_chess_df()
@@ -108,7 +107,8 @@ def plot_multiclass_fig_3D():
     ax.legend(labels=label_mapping)
     
     # save the figure
-    plt.savefig("../graphs/3d-scatter.png")
+    plt.show()
+    # plt.savefig("../graphs/3d-scatter.png")
 
 
 def svm(model_name="svm"):
@@ -170,6 +170,6 @@ def svm(model_name="svm"):
 
 if __name__ == "__main__":
     print("SVM")
-    svm()
+    # svm()
     # plot_multiclass_fig_3D()
-    # plot_multiclass_fig_2D()
+    plot_multiclass_fig_2D()
